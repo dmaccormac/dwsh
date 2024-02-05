@@ -36,7 +36,7 @@ namespace dwsh
         private void UpdateHistory()
         {
             string historyEvent = this.IsActive ? "Connect" : "Disconnect";
-            string historyEntry = $"{DateTime.Now.ToString()} {historyEvent} {Host}";
+            string historyEntry = $"{DateTime.Now} {historyEvent} {Host}";
             new Shell().RunCommand("history", ["_write", historyEntry]);
         }
 
