@@ -2,7 +2,7 @@
 
 namespace dwsh
 {
-    class Connection
+    internal class Connection
     {
         private static int _count = 1000;
 
@@ -13,27 +13,31 @@ namespace dwsh
 
         public Connection(string host)
         {
-            Id = ++_count;
-            this.Host = host;
+            Id = _count++;
+            Host = host;
 
             Process process = new Process();
             process.StartInfo = new ProcessStartInfo(Config.DamewareExecutable);
-            process.StartInfo.Arguments = Config.DamewareArguments + host;
-            process.EnableRaisingEvents = true; 
+            process.StartInfo.Arguments = Config.DamewareArguments + Host;
+            process.EnableRaisingEvents = true;
             process.Exited += new EventHandler(ProcessExited);
-            IsActive = process.Start(); 
-
-            string HistoryEntry = (DateTime.Now.ToString() + " Connect " + this.Host);
-            new Shell().RunCommand("history", ["_write", HistoryEntry]);
+            IsActive = process.Start();
+            UpdateHistory();
         }
 
 
         private void ProcessExited(object sender, EventArgs e)
         {
-            this.IsActive = false;
-            string HistoryEntry = (DateTime.Now.ToString() + " Disconnect " + this.Host);
-            new Shell().RunCommand("history", ["_write", HistoryEntry]);
+            IsActive = false;
+            UpdateHistory();
 
+        }
+
+        private void UpdateHistory()
+        {
+            string historyEvent = this.IsActive ? "Connect" : "Disconnect";
+            string historyEntry = $"{DateTime.Now.ToString()} {historyEvent} {Host}";
+            new Shell().RunCommand("history", ["_write", historyEntry]);
         }
 
 
