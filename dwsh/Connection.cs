@@ -4,8 +4,6 @@ namespace dwsh
 {
     class Connection
     {
-        private const string Executable = "dwrcc.exe";
-        private const string Arguments = "-c: -h: -m:";
         private static int _count = 1000;
 
         public int Id { get; private set; }
@@ -19,8 +17,8 @@ namespace dwsh
             this.Host = host;
 
             Process process = new Process();
-            process.StartInfo = new ProcessStartInfo(Executable);
-            process.StartInfo.Arguments = Arguments + host;
+            process.StartInfo = new ProcessStartInfo(Config.DamewareExecutable);
+            process.StartInfo.Arguments = Config.DamewareArguments + host;
             process.EnableRaisingEvents = true; 
             process.Exited += new EventHandler(ProcessExited);
             IsActive = process.Start(); 
