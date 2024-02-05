@@ -5,8 +5,6 @@ namespace dwsh.Commands
 {
     internal class PackageCommand : Command
     {
-        private const string DamewareExecutable = "dwrcc.exe";
-        private string? _damewareDirectory; 
 
         public PackageCommand() : base("package")
         {
@@ -41,8 +39,8 @@ namespace dwsh.Commands
             {
                 if (IsAdministrator())
                 {
-                    _damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
-                    _ = new Installer(DamewareExecutable, _damewareDirectory);
+                    string damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
+                    _ = new Installer(Config.DamewareExecutable, damewareDirectory);
                 }
 
                 else
@@ -54,8 +52,8 @@ namespace dwsh.Commands
             {
                 if (IsAdministrator())
                 {
-                    _damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
-                    _ = new Uninstaller(_damewareDirectory);
+                    string damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
+                    _ = new Uninstaller(damewareDirectory);
                 }
 
                 else
@@ -75,13 +73,12 @@ namespace dwsh.Commands
 
         private string GetDamewareDirectory()
         {
-            string executable = "dwrcc.exe";
             string[] directories = [Environment.ExpandEnvironmentVariables("%ProgramW6432%"),
                                     Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%")];
 
             foreach (string directory in directories)
             {
-                String[] files = Directory.GetFiles(directory, executable, SearchOption.AllDirectories);
+                String[] files = Directory.GetFiles(directory, Config.DamewareExecutable, SearchOption.AllDirectories);
                 foreach (string file in files)
                     return Path.GetDirectoryName(file);
 
