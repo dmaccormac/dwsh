@@ -40,7 +40,7 @@ namespace dwsh.Commands
                 if (IsAdministrator())
                 {
                     string damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
-                    _ = new Installer(Config.DamewareExecutable, damewareDirectory);
+                    Installer.Run(damewareDirectory);
                 }
 
                 else

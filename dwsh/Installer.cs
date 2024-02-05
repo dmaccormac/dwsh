@@ -4,10 +4,10 @@ using static System.Environment;
 
 namespace dwsh
 {
-    internal class Installer
+    internal static class Installer
     {
 
-        public Installer(string damewareExecutable, string damewareDirectory) {
+        public static void Run(string damewareDirectory) {
 
             Console.WriteLine("Install dwsh...");
             Console.WriteLine("Directory: " + damewareDirectory);
@@ -36,7 +36,7 @@ namespace dwsh
                 key = Registry.CurrentUser.OpenSubKey(@"Software\Classes", true);
                 key.CreateSubKey(keyName);
                 key = key.OpenSubKey(keyName, true);
-                key.SetValue("", damewareDirectory + @"\" + damewareExecutable);
+                key.SetValue("", Path.Combine(damewareDirectory, Config.DamewareExecutable));
                 Console.WriteLine("OK");
 
 
