@@ -11,14 +11,7 @@ namespace dwsh.Commands
 
         public HistoryCommand() : base("history")
         {
-            Help = """
-                    history - show connection history
-
-                    options:
-                    -clear
-                    remove all entries in history
-                    """;
-
+            Help = Messages.History;
             _logFile = Path.Combine(_userProfile, Config.LogFile);
         }
 

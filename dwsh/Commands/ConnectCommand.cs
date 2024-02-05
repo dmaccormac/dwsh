@@ -6,23 +6,7 @@
 
         public ConnectCommand() : base("connect")
         {
-            Help = """
-                    connect - connect to a host using dameware mini remote control client.
-                    
-                    Options:
-                    -host <hostname>
-                    connect to a computer by hostname
-
-                    -file <filename>
-                    connect to a computer using a .dwc file (plantext file containing name of host)
-
-                    -list 
-                    list all connections in current session
-
-                    Examples:
-                    connect -host foo
-                    connect -file bar.dwc
-                    """;
+            Help = Messages.Connect;
         }
 
         public override void Execute(string[] parameters)

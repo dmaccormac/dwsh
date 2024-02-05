@@ -9,19 +9,7 @@ namespace dwsh.Commands
         public PackageCommand() : base("package")
         {
 
-            Help = """
-                package - install or uninstall dwsh.exe and .dwc file assocation.
-
-                 Options:
-                -install [DamewarePath]
-                If DamewarePath parameter is not provided, the installer will attempt to locate the directory.
-
-                -uninstall [DamewarePath]
-
-                Examples:
-                package -install
-                package -uninstall "C:\Program Files\foo\bar"
-                """;
+            Help = Messages.Package;
 
         }
 
