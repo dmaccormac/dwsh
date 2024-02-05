@@ -53,7 +53,7 @@ namespace dwsh.Commands
                 if (IsAdministrator())
                 {
                     string damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
-                    _ = new Uninstaller(damewareDirectory);
+                    Uninstaller.Run(damewareDirectory);
                 }
 
                 else

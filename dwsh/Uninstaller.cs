@@ -3,9 +3,9 @@ using static System.Environment;
 
 namespace dwsh
 {
-    internal class Uninstaller
+    internal static class Uninstaller
     {
-        public Uninstaller(string damewareDirectory) {
+        public static void Run(string damewareDirectory) {
 
             Console.WriteLine("Uninstall dwsh...");
             Console.WriteLine("Directory: " + damewareDirectory);
