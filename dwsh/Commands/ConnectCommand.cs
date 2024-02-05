@@ -30,12 +30,11 @@
         private void ProcessOption(string name, string[] parameters, int i)
         {
 
-
             if (name == "-host")
             {
                 while (i < parameters.Length - 1 && !parameters[++i].StartsWith("-"))
                 {
-                    Connection c = new Connection(parameters[i]);
+                    Connection c = new(parameters[i]);
                     connections.Add(c);
                 }
 
@@ -43,28 +42,26 @@
 
             else if (name == "-file")
             {
-
                 while (i < parameters.Length - 1 && !parameters[++i].StartsWith("-"))
                 {
-
                     try
                     {
-
-                        string host = "";
-                        using (StreamReader reader = new StreamReader(parameters[i]))
+                        string? host;
+                        using (StreamReader reader = new(parameters[i]))
                         {
                             host = reader.ReadLine();
                         }
 
-
-
-                        Connection c = new Connection(host);
-                        connections.Add(c);
+                        if (host != null)
+                        {
+                            Connection c = new(host);
+                            connections.Add(c);
+                        }
                     }
 
                     catch (Exception e)
                     {
-                        Console.WriteLine("couldn't read info from file: " + e.ToString());
+                        Console.WriteLine("Something went wrong: " + e.ToString());
                     }
 
                 }
@@ -73,12 +70,11 @@
 
             else if (name == "-list")
             {
-                Console.WriteLine("Name\t\tID\tActive\n------------------------------");
+                Console.WriteLine("ID\tActive\tHost");
+                Console.WriteLine("--\t------\t----");
 
                 foreach (Connection c in connections)
-                {
-                    Console.WriteLine(c.Host + "\t\t" + c.Id + "\t" + c.IsActive);
-                }
+                    Console.WriteLine(c.Id + "\t" + c.IsActive + "\t" + c.Host);
 
             }
 
