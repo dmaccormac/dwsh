@@ -5,9 +5,9 @@ namespace dwsh.Commands
     internal class HistoryCommand : Command
     {
 
-        private string _userProfile = GetFolderPath(SpecialFolder.UserProfile);
-        private const string Logfile = @"\dwsh.log";
-        
+        private readonly string _userProfile = GetFolderPath(SpecialFolder.UserProfile);
+        private readonly string _logFile;
+
 
         public HistoryCommand() : base("history")
         {
@@ -18,6 +18,8 @@ namespace dwsh.Commands
                     -clear
                     remove all entries in history
                     """;
+
+            _logFile = Path.Combine(_userProfile, Config.LogFile);
         }
 
         public override void Execute(string[] parameters)
@@ -28,7 +30,7 @@ namespace dwsh.Commands
                 string? line;
                 try
                 {
-                    StreamReader sr = new(_userProfile + @"\" + Logfile);
+                    StreamReader sr = new(_logFile);
                     line = sr.ReadLine();
                     while (line != null)
                     {
@@ -46,19 +48,14 @@ namespace dwsh.Commands
             // clear history
             else if (parameters[0] == "-clear")
             {
-                WriteLog("", false);
+                File.Create(_logFile).Close();
             }
 
-            // help message
-            else if (parameters[0] == "-help" || parameters[0] == "help")
-            {
-                Console.WriteLine(Help);
-            }
 
             // add to history
             else if (parameters[0] == "_write")
             {
-                WriteLog(parameters[1], true);
+                AppendLog(parameters[1]);
             }
 
             else
@@ -69,11 +66,11 @@ namespace dwsh.Commands
 
         }
 
-        private void WriteLog(string message, bool append)
+        private void AppendLog(string message)
         {
             try
             {
-                StreamWriter sw = new StreamWriter(_userProfile + @"\" + Logfile, append);
+                StreamWriter sw = new StreamWriter(_logFile, true);
                 sw.WriteLine(message);
                 sw.Close();
             }
