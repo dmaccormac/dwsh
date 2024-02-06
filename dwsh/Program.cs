@@ -1,6 +1,6 @@
 ﻿using dwsh;
 
-Shell shell = new Shell();
+Shell shell = new();
 
 if (args.Length == 0)
 {
@@ -8,20 +8,16 @@ if (args.Length == 0)
     while (true)
     {
         Console.Write(shell.Prompt);
-        string[]? input = Console.ReadLine().Split();
+        string[]? input = Console.ReadLine()?.Trim().Split();
 
-
-        if (input.Length > 0) 
+        if (input != null) 
         {
             var command = input[0];
             var arguments = input.Skip(1).ToArray();
             shell.RunCommand(command, arguments);
         }
-
     }
-
 }
-
 
 else
 {
