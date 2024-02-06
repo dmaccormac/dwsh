@@ -6,13 +6,13 @@ namespace dwsh
     public class Shell
     {
 
-        private Hashtable _Commands = new Hashtable();
-        public string Prompt { get; private set; }
+        private readonly Hashtable _Commands = [];
+        public readonly string Prompt = "dwsh: ";
 
         public Shell()
         {
             InitCommands();
-            Prompt = "dwsh: ";
+
         }
 
         private void InitCommands()
@@ -32,18 +32,13 @@ namespace dwsh
         }
         public void RunCommand(string name, string[] parameters)
         {
-            Command command = (Command)_Commands[name];
-            if (command == null)
-            {
+            if (_Commands[name] is not Command command)
                 Console.WriteLine("Command not found. Type help for a list of available commands.");
-            }
+            
             else
-            {
-                command.Execute(parameters);
-            }
+                command.Execute(parameters);           
 
         }
-
     }
 }
 
