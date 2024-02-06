@@ -3,7 +3,7 @@
     internal static class PathHelper
     {
 
-        static void AddEntryToUserPath(string entryToAdd)
+        public static void AddEntryToUserPath(string entryToAdd)
         {
             try
             {

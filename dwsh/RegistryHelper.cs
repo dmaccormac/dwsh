@@ -3,7 +3,7 @@ namespace dwsh
 {
     internal static class RegistryHelper
     {
-        private static void CreateRegistryKey(string keyPath, string valueData)
+        public static void CreateRegistryKey(string keyPath, string valueData)
         {
 
             try
@@ -13,6 +13,7 @@ namespace dwsh
                     if (registryKey != null)
                     {
                         registryKey.SetValue(null, valueData);
+                        Console.WriteLine($"Created registry key '{keyPath}'");
                     }
                     else
                     {
@@ -35,7 +36,7 @@ namespace dwsh
                 if (keyToDelete != null)
                 {
                     baseRegistryKey.DeleteSubKeyTree(keyName);
-                    Console.WriteLine($"Registry key '{keyName}' deleted successfully.");
+                    Console.WriteLine($"Deleted registry key '{keyName}'");
                 }
                 else
                 {
