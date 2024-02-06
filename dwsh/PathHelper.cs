@@ -18,7 +18,7 @@
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Error adding entry to user PATH: {ex.Message}");
+                Console.WriteLine($"Error adding entry to the PATH variable: {ex.Message}");
             }
         }
         public static void RemoveEntryFromUserPath(string entryToRemove)
