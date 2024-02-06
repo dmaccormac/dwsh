@@ -7,7 +7,8 @@
         {
             try
             {
-                string currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+                string? currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+                if (currentPath == null) throw new NullReferenceException("Error getting PATH variable");
 
                 if (!currentPath.Split(';').Contains(entryToAdd, StringComparer.OrdinalIgnoreCase))
                 {
@@ -25,8 +26,9 @@
         {
             try
             {
+                string? currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+                if (currentPath == null) throw new NullReferenceException("Error getting PATH variable");
 
-                string currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
                 string[] pathEntries = currentPath.Split(';');
                 string updatedPath = string.Join(";", pathEntries.Where(entry => entry != entryToRemove));
                 Environment.SetEnvironmentVariable("PATH", updatedPath, EnvironmentVariableTarget.User);
