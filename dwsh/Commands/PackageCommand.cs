@@ -15,33 +15,39 @@ namespace dwsh.Commands
 
         public override void Execute(string[] parameters)
         {
-            // help message
             if (parameters.Length == 0)
             {
                 Console.WriteLine(Help);
                 return;
             }
 
-            // install
-            if (parameters[0] == "-install")
+            string parameter = parameters[0];
+
+            if (parameter == "-install")
             {
                 if (IsAdministrator())
                 {
-                    string damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
-                    Installer.Run(damewareDirectory);
+                    string? damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
+                    if (damewareDirectory == null)
+                        Console.WriteLine("Could not find Dameware installation path.");
+                    else
+                        Installer.Run(damewareDirectory);
+
                 }
 
                 else
                     Console.WriteLine("Admnistrative privileges are required for this action.");
             }
 
-            // uninstall
-            else if (parameters[0] == "-uninstall")
+            else if (parameter == "-uninstall")
             {
                 if (IsAdministrator())
                 {
-                    string damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
-                    Uninstaller.Run(damewareDirectory);
+                    string? damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
+                    if (damewareDirectory == null)
+                        Console.WriteLine("Could not find Dameware installation path.");
+                    else
+                        Uninstaller.Run(damewareDirectory);
                 }
 
                 else
@@ -54,12 +60,14 @@ namespace dwsh.Commands
             }
 
         }
-        private bool IsAdministrator()
+
+       
+        private static bool IsAdministrator()
         {
             return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
         }
 
-        private string GetDamewareDirectory()
+        private string? GetDamewareDirectory()
         {
             string[] directories = [Environment.ExpandEnvironmentVariables("%ProgramW6432%"),
                                     Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%")];
@@ -72,7 +80,7 @@ namespace dwsh.Commands
 
             }
 
-            throw new Exception("Could not find Dameware installation directory");                     
+            return null;                    
         }      
     }
 }
