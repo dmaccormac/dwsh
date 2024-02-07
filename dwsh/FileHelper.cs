@@ -1,4 +1,6 @@
-﻿namespace dwsh
+﻿using System.Collections;
+
+namespace dwsh
 {
     internal static class FileHelper
     {
@@ -17,27 +19,26 @@
                 Console.WriteLine($"Error copying file: {ex.Message}");
             }
         }
-        public static string? TryGetDamewareDirectory()
+        public static List<string?> SearchForFile(string filename, string[] searchDirectories)
         {
+            var results = new List<string?>();
+
             try
             {
-                string[] directories = [Environment.ExpandEnvironmentVariables("%ProgramW6432%"),
-                    Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%")];
-
-                foreach (string directory in directories)
+                foreach (string directory in searchDirectories)
                 {
-                    String[] files = Directory.GetFiles(directory, Config.DamewareExecutable, SearchOption.AllDirectories);
+                    String[] files = Directory.GetFiles(directory, filename, SearchOption.AllDirectories);
                     foreach (string file in files)
-                        return Path.GetDirectoryName(file);
+                        results.Add(Path.GetDirectoryName(file));
 
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting Dameware directory: {ex.Message}");
+                Console.WriteLine($"Error occurred: {ex.Message}");
             }
 
-            return null;
+            return results;
         }
     }
 }
