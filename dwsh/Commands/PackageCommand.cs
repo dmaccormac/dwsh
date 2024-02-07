@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using System.Reflection.Metadata.Ecma335;
+using System.Security.Principal;
+using static dwsh.FileHelper;
 
 
 namespace dwsh.Commands
@@ -25,9 +27,10 @@ namespace dwsh.Commands
 
             if (parameter == "-install")
             {
-                if (IsAdministrator())
+                if (CurrentUserIsAdministrator())
                 {
-                    string? damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
+                    var damewareDirectory = (parameters.Length > 1) ? parameters[1] : TryGetDamewareDirectory();
+
                     if (damewareDirectory == null)
                         Console.WriteLine("Could not find Dameware installation path.");
                     else
@@ -41,9 +44,10 @@ namespace dwsh.Commands
 
             else if (parameter == "-uninstall")
             {
-                if (IsAdministrator())
+                if (CurrentUserIsAdministrator())
                 {
-                    string? damewareDirectory = (parameters.Length > 1) ? parameters[1] : GetDamewareDirectory();
+                    var damewareDirectory = (parameters.Length > 1) ? parameters[1] : TryGetDamewareDirectory();
+
                     if (damewareDirectory == null)
                         Console.WriteLine("Could not find Dameware installation path.");
                     else
@@ -62,25 +66,27 @@ namespace dwsh.Commands
         }
 
        
-        private static bool IsAdministrator()
+        private static bool CurrentUserIsAdministrator()
         {
-            return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+            var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());     
+            var isAdministrator = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            return isAdministrator;
         }
 
-        private string? GetDamewareDirectory()
+        private string? TryGetDamewareDirectory()
         {
-            string[] directories = [Environment.ExpandEnvironmentVariables("%ProgramW6432%"),
+            string? damewareDirectory = null;
+            string[] searchDirectories = [Environment.ExpandEnvironmentVariables("%ProgramW6432%"),
                                     Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%")];
 
-            foreach (string directory in directories)
-            {
-                String[] files = Directory.GetFiles(directory, Config.DamewareExecutable, SearchOption.AllDirectories);
-                foreach (string file in files)
-                    return Path.GetDirectoryName(file);
 
-            }
+            var results = SearchForFile(Config.DamewareExecutable, searchDirectories);
 
-            return null;                    
+            if (results.Count > 0)
+                damewareDirectory = results[0];
+
+            return damewareDirectory;
+            
         }      
     }
 }
