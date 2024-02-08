@@ -19,6 +19,7 @@ namespace dwsh
                 Console.WriteLine($"Error copying file: {ex.Message}");
             }
         }
+
         public static List<string?> SearchForFile(string filename, string[] searchDirectories)
         {
             var results = new List<string?>();
@@ -35,10 +36,52 @@ namespace dwsh
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred: {ex.Message}");
+                Console.WriteLine($"Error searching for file: {ex.Message}");
             }
 
             return results;
+        }
+
+        public static string ReadTextFromFile(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    throw new FileNotFoundException($"File not found: {filePath}");
+                }
+
+                string fileContents;
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    fileContents = reader.ReadToEnd();
+                }
+
+                return fileContents;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading file: {ex.Message}");
+                throw;
+
+            }
+        }
+
+
+        public static void AppendTextToFile(string filePath, string lineToAdd)
+        {
+            try
+            {
+                using (StreamWriter writer = File.AppendText(filePath))
+                {
+                    writer.WriteLine(lineToAdd);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing to file: {ex.Message}");
+            }
         }
     }
 }
