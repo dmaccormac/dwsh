@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using static dwsh.RegistryHelper;
 using static dwsh.PathHelper;
+using static dwsh.FileHelper;
 
 namespace dwsh
 {
@@ -15,17 +16,18 @@ namespace dwsh
             _installTarget = damewareDirectory;
             _currentProcess = Process.GetCurrentProcess().ProcessName + ".exe";
 
-            Console.WriteLine("Install dwsh...");
-            Console.WriteLine("Directory: " + _installTarget);
+            Console.WriteLine("Installing dwsh...");
+            Console.WriteLine("Target directory: " + _installTarget);
 
             CreateFileAssociation();
             CopyIntallationFiles();
-            AddEntryToUserPath(_installTarget);
+            AddEntriesToUserPath();
+
         }
 
         private static void CreateFileAssociation()
         {
-            var entries = new Dictionary<string, string>
+            var registryEntries = new Dictionary<string, string>
             {
                 {
                     @"Software\Classes\.dwc",
@@ -42,27 +44,36 @@ namespace dwsh
             };
 
 
-            foreach (var entry in entries)
+            foreach (var entry in registryEntries)
                 CreateRegistryKey(entry.Key, entry.Value);
 
         }
 
         private static void CopyIntallationFiles()
         {
-            
-            string sourceFilePath = _currentProcess;
-            string destinationFilePath = Path.Combine(_installTarget, _currentProcess);
-         
-            try
+            var fileMappings = new Dictionary<string, string>
             {
-                File.Copy(sourceFilePath, destinationFilePath, true);
-                Console.WriteLine($"Copied file {sourceFilePath} to {destinationFilePath}");
+                { _currentProcess, Path.Combine(_installTarget, _currentProcess) }
+                
+            };
 
-            }
-            catch (Exception ex)
+
+            foreach (var mapping in fileMappings)
             {
-                Console.WriteLine($"Error copying file: {ex.Message}");
+                var sourceFilePath = mapping.Key;
+                var destinationFilePath = mapping.Value;
+                CopyFile(sourceFilePath, destinationFilePath);
             }
+
+        }
+
+        private static void AddEntriesToUserPath()
+        {
+            string[] userPathEntries = { _installTarget };
+
+            foreach (var entry in userPathEntries)
+                AddEntryToUserPath(entry);
+
         }
 
     }
