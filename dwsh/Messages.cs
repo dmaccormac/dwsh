@@ -8,7 +8,7 @@
             
             Commands:
             connect     connect to a host
-            history     show connection history
+            log         show connection log
             package     install or uninstall dwsh
             clear       clear the console screen
             version     show version info
@@ -57,13 +57,12 @@
 
 
 
-        public static readonly string History =
+        public static readonly string Log =
            """
-            history - show connection history
+            log - show connection log
 
-            options:
-            -clear
-            remove all entries in history
+            All connect and disconnect events are added to the log file.
+            The calling shell must remain open for disconnect events to be logged. 
             """;
     }
 }

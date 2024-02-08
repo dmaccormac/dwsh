@@ -48,7 +48,7 @@ namespace dwsh
             {
                 if (!File.Exists(filePath))
                 {
-                    throw new FileNotFoundException($"File not found: {filePath}");
+                    using StreamWriter writer = File.CreateText(filePath);
                 }
 
                 string fileContents;
@@ -72,9 +72,19 @@ namespace dwsh
         {
             try
             {
-                using (StreamWriter writer = File.AppendText(filePath))
+                if (!File.Exists(filePath))
                 {
-                    writer.WriteLine(lineToAdd);
+                    using (StreamWriter writer = File.CreateText(filePath))
+                    {
+                        writer.WriteLine(lineToAdd);
+                    }
+                }
+                else
+                {
+                    using (StreamWriter writer = File.AppendText(filePath))
+                    {
+                        writer.WriteLine(lineToAdd);
+                    }
                 }
             }
 

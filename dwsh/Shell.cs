@@ -19,7 +19,7 @@ namespace dwsh
         {
             AddCommand(new PackageCommand());
             AddCommand(new ConnectCommand());
-            AddCommand(new HistoryCommand());
+            AddCommand(new LogCommand());
             AddCommand(new ClearCommand());
             AddCommand(new HelpCommand());
             AddCommand(new VersionCommand());

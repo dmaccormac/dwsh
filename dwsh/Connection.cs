@@ -22,22 +22,22 @@ namespace dwsh
             process.EnableRaisingEvents = true;
             process.Exited += new EventHandler(ProcessExited);
             IsActive = process.Start();
-            UpdateHistory();
+            UpdateLog();
         }
 
 
         private void ProcessExited(object sender, EventArgs e)
         {
             IsActive = false;
-            UpdateHistory();
+            UpdateLog();
 
         }
 
-        private void UpdateHistory()
+        private void UpdateLog()
         {
-            string historyEvent = this.IsActive ? "Connect" : "Disconnect";
-            string historyEntry = $"{DateTime.Now} {historyEvent} {Host}";
-            new Shell().RunCommand("history", ["_write", historyEntry]);
+            string logEvent = this.IsActive ? "Connect" : "Disconnect";
+            string logEntry = $"{DateTime.Now} {logEvent} {Host}";
+            new Shell().RunCommand("log", ["_write", logEntry]);
         }
 
 
