@@ -44,34 +44,34 @@
 
         public static readonly string Log =
            """
-            log - show connection log
+            show connection log
 
             All connect and disconnect events are added to the log file.
             The calling shell must remain open for disconnect events to be logged. 
             """;
 
         public static readonly string Install =
-        """
-        install dwsh and create file association for .dwc files
+            """
+            install dwsh and create file association for .dwc files
 
-        install [DamewareDirectory]
-        If DamewareDirectory is not provided, the installer will attempt to locate the directory.
+            install [DamewareDirectory]
+            If DamewareDirectory is not provided, the installer will attempt to locate the directory.
             
-        Examples:
-        install
-        install "C:\Program Files\foo\bar"            
-        """;
+            Examples:
+            install
+            install "C:\Program Files\foo\bar"            
+            """;
 
         public static readonly string Uninstall =
-        """
-        uninstall dwsh and remove file association for .dwc files
+            """
+            uninstall dwsh and remove file association for .dwc files
 
-        uninstall [DamewareDirectory]
-        If DamewareDirectory is not provided, the installer will attempt to locate the directory.
+            uninstall [DamewareDirectory]
+            If DamewareDirectory is not provided, the installer will attempt to locate the directory.
                
-        Examples:
-        uninstall
-        uninstall "C:\Program Files\foo\bar"            
-        """;
+            Examples:
+            uninstall
+            uninstall "C:\Program Files\foo\bar"            
+            """;
     }
 }

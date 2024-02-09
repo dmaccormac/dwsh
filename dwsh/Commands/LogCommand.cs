@@ -18,7 +18,7 @@ namespace dwsh.Commands
 
         public override void Execute(string[] parameters)
         {
-            //show history
+
             if (parameters.Length == 0)
             {
                 try
@@ -29,11 +29,21 @@ namespace dwsh.Commands
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("An error occurred: " + ex.Message);
+                    if (ex is FileNotFoundException)
+                    {
+                        using (StreamWriter writer = File.CreateText(_logFile))
+                        {
+                            Console.WriteLine($"Creating log file: {_logFile}");
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error reading log file: " + ex.Message);
+                    }
                 }
 
             }
-
 
             else if (parameters[0] == "_write")
             {
@@ -45,17 +55,16 @@ namespace dwsh.Commands
 
                 catch (Exception ex)
                 {
-                    Console.WriteLine("An error occurred: " + ex.Message);
+                    Console.WriteLine("Error writing to log file: " + ex.Message);
                 }
             }
 
             else
             {
                 Console.WriteLine(Help);
-
             }
 
         }
-     
+
     }
 }
