@@ -17,13 +17,15 @@ namespace dwsh
 
         private void InitCommands()
         {
-            AddCommand(new PackageCommand());
             AddCommand(new ConnectCommand());
+            AddCommand(new InstallCommand());
+            AddCommand(new UninstallCommand());
             AddCommand(new LogCommand());
             AddCommand(new ClearCommand());
-            AddCommand(new HelpCommand());
             AddCommand(new VersionCommand());
+            AddCommand(new HelpCommand());
             AddCommand(new ExitCommand());
+
         }
 
         private void AddCommand(Command command)

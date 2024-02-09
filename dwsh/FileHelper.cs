@@ -30,7 +30,7 @@ namespace dwsh
                 {
                     String[] files = Directory.GetFiles(directory, filename, SearchOption.AllDirectories);
                     foreach (string file in files)
-                        results.Add(Path.GetDirectoryName(file));
+                        results.Add(file);
 
                 }
             }
@@ -48,7 +48,7 @@ namespace dwsh
             {
                 if (!File.Exists(filePath))
                 {
-                    using StreamWriter writer = File.CreateText(filePath);
+                    throw new FileNotFoundException();
                 }
 
                 string fileContents;

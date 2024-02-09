@@ -8,8 +8,9 @@
             
             Commands:
             connect     connect to a host
+            install     install dwsh package
+            uninstall   uninstall dwsh package
             log         show connection log
-            package     install or uninstall dwsh
             clear       clear the console screen
             version     show version info
             exit        quit the program
@@ -22,37 +23,21 @@
 
         public static readonly string Connect =
             """
-            connect - connect to a host using dameware mini remote control client
+            connect to a host using dameware mini remote control client
                     
             Options:
             -host <hostname>
             connect to a computer by hostname
 
             -file <filename>
-            connect to a computer using a .dwc file (plantext file containing name of host)
+            connect to a computer using a .dwc file (plaintext file containing name of host)
 
             -list 
             list all connections in current session
 
             Examples:
             connect -host foo
-            connect -file bar.dwc
-            """;
-
-
-        public static readonly string Package =
-            """
-            package - install or uninstall dwsh.exe and .dwc file assocation
-
-            Options:
-            -install [DamewarePath]
-            If DamewarePath parameter is not provided, the installer will attempt to locate the directory.
-
-            -uninstall [DamewarePath]
-
-            Examples:
-            package -install
-            package -uninstall "C:\Program Files\foo\bar"
+            connect -file c:\example\bar.dwc
             """;
 
 
@@ -64,5 +49,31 @@
             All connect and disconnect events are added to the log file.
             The calling shell must remain open for disconnect events to be logged. 
             """;
+
+        public static readonly string Install =
+        """
+        install dwsh and create file association for .dwc files
+
+        install [DamewareDirectory]
+        If DamewareDirectory is not provided, the installer will attempt to locate the directory.
+        
+        
+        Examples:
+        install
+        install "C:\Program Files\foo\bar"            
+        """;
+
+        public static readonly string Uninstall =
+        """
+        uninstall dwsh and remove file association for .dwc files
+
+        uninstall [DamewareDirectory]
+        If DamewareDirectory is not provided, the installer will attempt to locate the directory.
+        
+        
+        Examples:
+        uninstall
+        uninstall "C:\Program Files\foo\bar"            
+        """;
     }
 }
