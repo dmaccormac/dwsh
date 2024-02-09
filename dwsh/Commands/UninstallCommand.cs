@@ -9,17 +9,13 @@
 
         public override void Execute(string[] parameters)
         {
-            try
+            if (parameters.Length > 0 && parameters[0] == "-help")
             {
-                base.Execute(parameters);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
+                Console.WriteLine(Help);
                 return;
             }
 
-            Uninstaller.Run(damewareDirectory);
+            HandleInstallOrUninstall(parameters, Uninstaller.Run);
         }
     }
 }

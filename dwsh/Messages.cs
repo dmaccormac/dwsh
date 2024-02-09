@@ -24,7 +24,7 @@
         public static readonly string Connect =
             """
             connect to a host using dameware mini remote control client
-                    
+            
             Options:
             -host <hostname>
             connect to a computer by hostname
@@ -56,8 +56,7 @@
 
         install [DamewareDirectory]
         If DamewareDirectory is not provided, the installer will attempt to locate the directory.
-        
-        
+            
         Examples:
         install
         install "C:\Program Files\foo\bar"            
@@ -69,8 +68,7 @@
 
         uninstall [DamewareDirectory]
         If DamewareDirectory is not provided, the installer will attempt to locate the directory.
-        
-        
+               
         Examples:
         uninstall
         uninstall "C:\Program Files\foo\bar"            

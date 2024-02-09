@@ -5,20 +5,12 @@ namespace dwsh.Commands
 {
     internal abstract class InstallCommandBase : Command
     {
-        protected string damewareDirectory;
-
         protected InstallCommandBase(string commandName) : base(commandName)
         {
-            damewareDirectory = "";
         }
 
-        public override void Execute(string[] parameters)
+        protected static void HandleInstallOrUninstall(string[] parameters, Action<string> action)
         {
-            if (parameters.Length > 0 && parameters[0] == "-help")
-            {
-                Console.WriteLine(Help);
-                return;
-            }
 
             if (!CurrentUserIsAdministrator())
             {
@@ -26,15 +18,14 @@ namespace dwsh.Commands
                 return;
             }
 
-            try 
+            try
             {
-                damewareDirectory = (parameters.Length > 1) ? parameters[1] : TryGetDamewareDirectory();
-
+                var damewareDirectory = (parameters.Length > 1) ? parameters[1] : TryGetDamewareDirectory();
+                action(damewareDirectory);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error getting Dameware directory");       
-                throw;
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
         }
@@ -50,6 +41,7 @@ namespace dwsh.Commands
             string[] searchDirectories = { Environment.ExpandEnvironmentVariables("%ProgramW6432%"),
                                             Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%") };
 
+            Console.WriteLine("Searching for Dameware installation...");
             var results = SearchForFile(Config.DamewareExecutable, searchDirectories);
 
             if (results.Count > 0)

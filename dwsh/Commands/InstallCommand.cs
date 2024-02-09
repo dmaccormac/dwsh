@@ -11,18 +11,13 @@ namespace dwsh.Commands
 
         public override void Execute(string[] parameters)
         {
-
-            try
+            if (parameters.Length > 0 && parameters[0] == "-help")
             {
-                base.Execute(parameters);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
+                Console.WriteLine(Help);
                 return;
             }
 
-            Installer.Run(damewareDirectory);
+            HandleInstallOrUninstall(parameters, Installer.Run);          
         }
     }
 }
