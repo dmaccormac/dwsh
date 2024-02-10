@@ -61,7 +61,6 @@ namespace dwsh
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error reading file: {ex.Message}");
                 throw;
 
             }

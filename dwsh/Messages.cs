@@ -25,12 +25,12 @@
             """
             connect to a host using dameware mini remote control client
             
-            Options:
-            -host <hostname>
-            connect to a computer by hostname
+            connect [-host <HOST ..>] [-file <FILE ..>]
 
-            -file <filename>
-            connect to a computer using a .dwc file (plaintext file containing name of host)
+            Options:
+            -host: the hostname or IP address of the computer
+
+            -file: path to .dwc file (file containing name or IP address of host)
 
             -list 
             list all connections in current session
