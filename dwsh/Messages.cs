@@ -1,10 +1,14 @@
-﻿namespace dwsh
+﻿using System.Reflection;
+
+namespace dwsh
 {
     internal static class Messages
     {
+        private static readonly string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
         public static readonly string Help =
-            """
-            dwsh - command shell for dameware mini remote control client
+            $"""
+            dwsh {version} - command shell for dameware mini remote control client
             
             Commands:
             connect     connect to a host
@@ -12,7 +16,6 @@
             uninstall   uninstall dwsh package
             log         show connection log
             clear       clear the console screen
-            version     show version info
             exit        quit the program
 
             To see detailed help for a command use the -help option

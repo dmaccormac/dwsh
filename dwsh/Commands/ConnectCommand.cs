@@ -1,5 +1,4 @@
-﻿using System.Data;
-using static dwsh.FileHelper;
+﻿using static dwsh.FileHelper;
 
 namespace dwsh.Commands
 {

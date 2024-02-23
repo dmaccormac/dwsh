@@ -22,7 +22,6 @@ namespace dwsh
             AddCommand(new UninstallCommand());
             AddCommand(new LogCommand());
             AddCommand(new ClearCommand());
-            AddCommand(new VersionCommand());
             AddCommand(new HelpCommand());
             AddCommand(new ExitCommand());
 
